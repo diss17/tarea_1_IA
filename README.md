@@ -1,4 +1,4 @@
-# DFS Visualization
+# Resolucion de Labertinto Saltarin mediante Agentes de Búsqueda.
 
 Este proyecto implementa los algoritmos Depth-First Search (DFS) y Uniform-Cost Search para encontrar el camino más corto en matrices bidimensionales. Además, utiliza Pygame para visualizar el proceso de búsqueda en tiempo real.
 
@@ -14,7 +14,7 @@ Este proyecto implementa los algoritmos Depth-First Search (DFS) y Uniform-Cost 
 ## Ejecución
 1. Asegúrate de que el archivo `input.txt` esté en el mismo directorio que el script.
 2. Ejecuta el archivo `main.py` para procesar las matrices.
-3. Ejecuta `ventana.py` para visualizar el recorrido del DFS.
+3. Ejecuta `ventana.py` para visualizar los recorridos.
 
 ## Autor
 - Daniel Soto.
