@@ -1,3 +1,5 @@
+import heapq
+
 def leerMatrices(archivo):
     matrices = []
     while True:
@@ -55,8 +57,34 @@ def dfs(matriz, fila, columna, visitados, valorFinal, pasos, caminoMinimo):
     visitados.remove((fila, columna))
     return False  # Retornar False si no se encuentra el valor final en este camino
 
+def ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal):
+    filas, columnas = len(matriz), len(matriz[0])
+    visitados = set()
+    priorityQueue = []
+    pasos = 0
+    heapq.heappush(priorityQueue, (0, filaInicio, columnaInicio))
+
+    while priorityQueue:
+        costoActual, fila, columna = heapq.heappop(priorityQueue)
+        pasos += 1
+        if(fila, columna) in visitados:
+            continue
+        visitados.add((fila, columna))
+        
+        if(fila, columna) == (filaFinal, columnaFinal):
+           return costoActual, pasos
+        valorActual = matriz[fila][columna]
+        direcciones = [(-valorActual, 0), (valorActual, 0), (0, -valorActual), (0, valorActual)]
+        for df, dc in direcciones:
+            nuevaFila, nuevaColumna = fila + df, columna + dc
+            if 0 <= nuevaFila < filas and 0 <= nuevaColumna < columnas and (nuevaFila, nuevaColumna) not in visitados:
+                nuevoCosto = costoActual + matriz[nuevaFila][nuevaColumna]        
+                heapq.heappush(priorityQueue, (nuevoCosto, nuevaFila, nuevaColumna))
+    
+    return -1, pasos
+    
 if __name__ == "__main__":
-    with open("input.txt", "r") as archivo:
+    with open("src/input.txt", "r") as archivo:
         # Leer todas las matrices del archivo
         matrices = leerMatrices(archivo)
 
@@ -70,6 +98,8 @@ if __name__ == "__main__":
         valorInicio = initialSearch(matriz, filaInicio, columnaInicio)
         valorFinal = finialSearch(matriz, filaFinal, columnaFinal)
         visitados = set()
+
+
         caminoMinimo = []
         caminoMinimo.append(1e9)
 
@@ -82,3 +112,12 @@ if __name__ == "__main__":
             print(f"Se llegó a destino en: {caminoMinimo[0]} pasos.")
         else:
             print("No se encontró un camino hacia el valor final.")
+        # Ejecutar UCS
+        print("\nBuscando el camino más corto hacia el valor final con UCS...")
+        costo, pasos = ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal)
+
+        # Mostrar el resultado de UCS
+        if costo != -1:
+            print(f"UCS: Se llegó a destino con un costo total de: {costo}. Con un total de: {pasos} pasos")
+        else:
+            print("UCS: No se encontró un camino hacia el valor final.")
