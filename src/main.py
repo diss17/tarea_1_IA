@@ -1,30 +1,10 @@
 import heapq
 from algorithms import dfs
 from algorithms import ucs
-def leerMatrices(archivo):
-    matrices = []
-    while True:
-        # Leer la primera línea del bloque
-        primeraLinea = archivo.readline().strip()
-        if not primeraLinea:  # Si no hay más líneas, salir del bucle
-            break
+from utilities import leerMatrices
 
-        # Extraer dimensiones y posiciones iniciales/finales
-        filas, columnas, filaInicio, columnaInicio, filaFinal, columnaFinal = map(int, primeraLinea.split())
-
-        # Leer la matriz
-        matriz = []
-        for _ in range(filas):
-            fila = list(map(int, archivo.readline().strip().split()))
-            matriz.append(fila)
-
-        # Agregar la matriz y su configuración a la lista
-        matrices.append((filas, columnas, filaInicio, columnaInicio, filaFinal, columnaFinal, matriz))
-
-    return matrices
-    
 if __name__ == "__main__":
-    with open("src/input.txt", "r") as archivo:
+    with open("input/input.txt", "r") as archivo:
         # Leer todas las matrices del archivo
         matrices = leerMatrices(archivo)
 
@@ -40,7 +20,7 @@ if __name__ == "__main__":
         caminoMinimo.append(1e9)
 
         # Ejecutar DFS
-        print("Buscando el camino más corto hacia el valor final...")
+        print("Buscando el camino más corto hacia el valor final con DFS ...")
         dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, 0, caminoMinimo)
 
         # Mostrar el resultado
@@ -48,12 +28,16 @@ if __name__ == "__main__":
             print(f"Se llegó a destino en: {caminoMinimo[0]} pasos.")
         else:
             print("No se encontró un camino hacia el valor final.")
+
         # Ejecutar UCS
         print("\nBuscando el camino más corto hacia el valor final con UCS...")
-        pasos, costo = ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal)
+        pasos, costo, camino = ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal)
 
         # Mostrar el resultado de UCS
         if pasos != -1:
             print(f"UCS: Se llegó a destino con un total de: {pasos} pasos y el costo acumulado es de: {costo}")
+            print("Camino óptimo:")
+            for paso in camino:
+                print(paso)
         else:
             print("UCS: No se encontró un camino hacia el valor final.")

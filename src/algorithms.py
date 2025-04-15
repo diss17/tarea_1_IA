@@ -32,6 +32,7 @@ def ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal):
     filas, columnas = len(matriz), len(matriz[0])
     visitados = {}
     priorityQueue = []
+    padres = {}
     pasos = 0
     heapq.heappush(priorityQueue, (0, filaInicio, columnaInicio))
 
@@ -42,10 +43,19 @@ def ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal):
             continue
 
         visitados[(fila, columna)] = costoAcumulado
-        pasos += 1
         
+        pasos += 1
+
         if (fila, columna) == (filaFinal, columnaFinal):
-            return pasos, costoAcumulado
+            camino = []
+            actual = (fila, columna)
+            while actual in padres:
+                camino.append(actual)
+                actual = padres[actual]
+            camino.append((filaInicio, columnaInicio))
+            camino.reverse()
+
+            return pasos, costoAcumulado, camino
         
         #generar vecinos
         valorActual = matriz[fila][columna]
@@ -54,6 +64,8 @@ def ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal):
             nuevaFila, nuevaColumna = fila + df, columna + dc
             if 0 <= nuevaFila < filas and 0 <= nuevaColumna < columnas:
                 nuevoCosto = costoAcumulado + matriz[nuevaFila][nuevaColumna]
-                heapq.heappush(priorityQueue, (nuevoCosto, nuevaFila, nuevaColumna))
+                if(nuevaFila, nuevaColumna) not in visitados or nuevoCosto < visitados[(nuevaFila, nuevaColumna)]:
+                    heapq.heappush(priorityQueue, (nuevoCosto, nuevaFila, nuevaColumna))
+                    padres[(nuevaFila, nuevaColumna)] = (fila, columna)
     
-    return -1, -1 # Si no se encuentra un camino
+    return -1, -1, [] # Si no se encuentra un camino
