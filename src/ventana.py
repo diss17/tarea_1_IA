@@ -40,7 +40,7 @@ def dibujar_matriz(pantalla, matriz, visitados, camino, inicio, final):
 
     pygame.display.flip()
 
-def visualizar(matriz, visitados, camino, inicio, final):
+def visualizar(matriz, iteraciones, inicio, final):
     pygame.init()
     filas, columnas = len(matriz), len(matriz[0])
     ancho = columnas * (TAM_CELDA + MARGEN) + MARGEN
@@ -48,13 +48,13 @@ def visualizar(matriz, visitados, camino, inicio, final):
     pantalla = pygame.display.set_mode((ancho, alto))
     pygame.display.set_caption("Visualización de Búsqueda")
 
-    corriendo = True
-    while corriendo:
+    for visitados, camino in iteraciones:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
-                corriendo = False
-
+                pygame.quit()
+                return
+            
         dibujar_matriz(pantalla, matriz, visitados, camino, inicio, final)
-        time.sleep(0.1)  # Controlar la velocidad de actualización
+        time.sleep(0.5)  # Controlar la velocidad de actualización
 
     pygame.quit()
