@@ -1,6 +1,6 @@
 import heapq
 
-def dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, pasos, caminoMinimo, caminoActual, iteraciones):
+def dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, pasos, caminoMinimo, caminoActual):
     # Verificar límites y si ya fue visitado
     if (filaInicio < 0 or filaInicio >= len(matriz) or
         columnaInicio < 0 or columnaInicio >= len(matriz[0]) or
@@ -13,13 +13,16 @@ def dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, pa
     visitados.add((filaInicio, columnaInicio))
     caminoActual.append((filaInicio, columnaInicio))
     
-    iteraciones.append((set(visitados), list(caminoActual)))
     # Verificar si se encontró el valor final
     if (filaInicio, columnaInicio) == (filaFinal, columnaFinal):
         if pasos < caminoMinimo[0]:
+           
+           #Actualizar camino minimo
+
            caminoMinimo[0] = pasos
            caminoMinimo[1].clear()
            caminoMinimo[1].extend(caminoActual)
+    
         visitados.remove((filaInicio,columnaInicio))                        
         caminoActual.pop()
         return True
@@ -28,7 +31,7 @@ def dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, pa
     valorActual = matriz[filaInicio][columnaInicio]
     direcciones = [(-valorActual, 0), (valorActual, 0), (0, -valorActual), (0, valorActual)]
     for df, dc in direcciones:
-        dfs(matriz, filaInicio + df, columnaInicio + dc, visitados, filaFinal, columnaFinal, pasos + 1, caminoMinimo, caminoActual, iteraciones)
+        dfs(matriz, filaInicio + df, columnaInicio + dc, visitados, filaFinal, columnaFinal, pasos + 1, caminoMinimo, caminoActual)
 
     visitados.remove((filaInicio, columnaInicio))
     caminoActual.pop()
@@ -61,7 +64,7 @@ def ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal):
             camino.append((filaInicio, columnaInicio))
             camino.reverse()
 
-            return pasos, costoAcumulado, camino
+            return len(camino), costoAcumulado, camino
         
         #generar vecinos
         valorActual = matriz[fila][columna]
