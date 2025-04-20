@@ -18,7 +18,6 @@ def dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, pa
         if pasos < caminoMinimo[0]:
            
            #Actualizar camino minimo
-
            caminoMinimo[0] = pasos
            caminoMinimo[1].clear()
            caminoMinimo[1].extend(caminoActual)
@@ -71,10 +70,15 @@ def ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal):
         direcciones = [(-valorActual, 0), (valorActual, 0), (0, -valorActual), (0, valorActual)]
         for df, dc in direcciones:
             nuevaFila, nuevaColumna = fila + df, columna + dc
+             # Si el vecino no ha sido visitado o el nuevo costo es menor, agregarlo a la cola
             if 0 <= nuevaFila < filas and 0 <= nuevaColumna < columnas:
+                # Calcular el nuevo costo acumulado al moverse al vecino
                 nuevoCosto = costoAcumulado + matriz[nuevaFila][nuevaColumna]
+
                 if(nuevaFila, nuevaColumna) not in visitados or nuevoCosto < visitados[(nuevaFila, nuevaColumna)]:
                     heapq.heappush(priorityQueue, (nuevoCosto, nuevaFila, nuevaColumna))
+
+                    # Registrar la celda actual como el padre del vecino
                     padres[(nuevaFila, nuevaColumna)] = (fila, columna)
     
     return -1, -1, [] # Si no se encuentra un camino

@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     # Procesar cada matriz
     for i, (filas, columnas, filaInicio, columnaInicio, filaFinal, columnaFinal, matriz) in enumerate(matrices):
-        print(f"\nProcesando matriz {i + 1}:")
+        print(f"Procesando matriz {i + 1}:")
         print("Matriz:")
         for fila in matriz:
             print(fila)
@@ -25,7 +25,6 @@ if __name__ == "__main__":
             print("Buscando el camino más corto hacia el valor final con DFS ...")
             dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, 0, caminoMinimo, caminoActual)
 
-            # Mostrar el resultadovisualizar_camino(matriz, caminoMinimo[1], (filaInicio, columnaInicio), (filaFinal, columnaFinal))
             if caminoMinimo[0] < 1e9:
                 print(f"Se llegó a destino en: {caminoMinimo[0]} pasos.")
                 print("camino minimo:")
@@ -36,7 +35,7 @@ if __name__ == "__main__":
                 print("No se encontró un camino hacia el valor final.")
 
         elif algoritmo == "UCS":
-            print("\nBuscando el camino más corto hacia el valor final con UCS...")
+            print("Buscando el camino más corto hacia el valor final con UCS...")
             pasos, costo, camino = ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal)
 
             # Mostrar el resultado de UCS
