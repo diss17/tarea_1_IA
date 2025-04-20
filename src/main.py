@@ -3,7 +3,7 @@ from utilities import leerMatrices
 from ventana import visualizar_camino, menuSeleccionAlgoritmo
 
 if __name__ == "__main__":
-    with open("input/input3.txt", "r") as archivo:
+    with open("input/input.txt", "r") as archivo:
         # Leer todas las matrices del archivo
         matrices = leerMatrices(archivo)
     algoritmo = menuSeleccionAlgoritmo()
@@ -21,13 +21,11 @@ if __name__ == "__main__":
             visitados = set()
             caminoMinimo = [1e9, []]
             caminoActual = []
-            caminoMinimo.append(1e9)
             print("Buscando el camino más corto hacia el valor final con DFS ...")
-            dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, 0, caminoMinimo, caminoActual)
-
+            dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal, columnaFinal, 0, caminoMinimo, caminoActual)
             if caminoMinimo[0] < 1e9:
                 print(f"Se llegó a destino en: {caminoMinimo[0]} pasos.")
-                print("camino minimo:")
+                print("Camino mínimo:")
                 for paso in caminoMinimo[1]:
                     print(paso)
                 visualizar_camino(matriz, caminoMinimo[1], (filaInicio, columnaInicio), (filaFinal, columnaFinal))
