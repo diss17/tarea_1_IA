@@ -4,7 +4,7 @@ def dfs(matriz, filaInicio, columnaInicio, visitados, filaFinal,columnaFinal, pa
     # Verificar límites y si ya fue visitado
     if (filaInicio < 0 or filaInicio >= len(matriz) or
         columnaInicio < 0 or columnaInicio >= len(matriz[0]) or
-        (filaInicio, columnaInicio) in visitados):
+        (filaInicio, columnaInicio) in visitados) or matriz[filaInicio][columnaFinal] == 0:
         return False
     
     if pasos >= caminoMinimo[0]:

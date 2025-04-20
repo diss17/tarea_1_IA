@@ -3,7 +3,7 @@ from utilities import leerMatrices
 from ventana import visualizar_camino, menuSeleccionAlgoritmo
 
 if __name__ == "__main__":
-    with open("input/input.txt", "r") as archivo:
+    with open("input/input3.txt", "r") as archivo:
         # Leer todas las matrices del archivo
         matrices = leerMatrices(archivo)
     algoritmo = menuSeleccionAlgoritmo()
