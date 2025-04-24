@@ -34,45 +34,28 @@ def ucs(matriz, filaInicio, columnaInicio, filaFinal, columnaFinal):
     filas, columnas = len(matriz), len(matriz[0])
     visitados = {}
     priorityQueue = []
-    padres = {}
-    pasos = 0
-    heapq.heappush(priorityQueue, (0, filaInicio, columnaInicio))
+    heapq.heappush(priorityQueue, (0, filaInicio, columnaInicio, []))  # Agregar el camino como lista vacía
 
     while priorityQueue:
-        costoAcumulado, fila, columna = heapq.heappop(priorityQueue)
+        costoAcumulado, fila, columna, camino = heapq.heappop(priorityQueue)
         
         if (fila, columna) in visitados and visitados[(fila, columna)] <= costoAcumulado:
             continue
 
         visitados[(fila, columna)] = costoAcumulado
-        
-        pasos += 1
+        camino = camino + [(fila, columna)]  # Actualizar el camino
 
         if (fila, columna) == (filaFinal, columnaFinal):
-            camino = []
-            actual = (fila, columna)
-            while actual in padres:
-                camino.append(actual)
-                actual = padres[actual]
-            camino.append((filaInicio, columnaInicio))
-            camino.reverse()
+            return len(camino) - 1, costoAcumulado, camino  # Retornar pasos, costo y el camino óptimo
 
-            return len(camino), costoAcumulado, camino
-        
-        #generar vecinos
+        # Generar vecinos
         valorActual = matriz[fila][columna]
         direcciones = [(-valorActual, 0), (valorActual, 0), (0, -valorActual), (0, valorActual)]
         for df, dc in direcciones:
             nuevaFila, nuevaColumna = fila + df, columna + dc
-             # Si el vecino no ha sido visitado o el nuevo costo es menor, agregarlo a la cola
             if 0 <= nuevaFila < filas and 0 <= nuevaColumna < columnas:
-                # Calcular el nuevo costo acumulado al moverse al vecino
-                nuevoCosto = costoAcumulado + matriz[nuevaFila][nuevaColumna]
-
-                if(nuevaFila, nuevaColumna) not in visitados or nuevoCosto < visitados[(nuevaFila, nuevaColumna)]:
-                    heapq.heappush(priorityQueue, (nuevoCosto, nuevaFila, nuevaColumna))
-
-                    # Registrar la celda actual como el padre del vecino
-                    padres[(nuevaFila, nuevaColumna)] = (fila, columna)
+                nuevoCosto = costoAcumulado + valorActual
+                if (nuevaFila, nuevaColumna) not in visitados or nuevoCosto < visitados[(nuevaFila, nuevaColumna)]:
+                    heapq.heappush(priorityQueue, (nuevoCosto, nuevaFila, nuevaColumna, camino))
     
-    return -1, -1, [] # Si no se encuentra un camino
+    return -1, -1, []  # Si no se encuentra un camino
