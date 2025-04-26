@@ -15,9 +15,11 @@ COLOR_TEXTO_BOTON = (255, 255, 255)
 TAM_CELDA = 40
 MARGEN = 2
 
-def dibujar_matriz(pantalla, matriz, visitados, camino, inicio, final, finalAlcanzado):
+def dibujarMatriz(pantalla, matriz, visitados, camino, inicio, final, finalAlcanzado):
     filas, columnas = len(matriz), len(matriz[0])
     pantalla.fill(COLOR_FONDO)
+
+    fuente = pygame.font.Font(None, 24)
 
     for fila in range(filas):
         for columna in range(columnas):
@@ -38,10 +40,16 @@ def dibujar_matriz(pantalla, matriz, visitados, camino, inicio, final, finalAlca
                  TAM_CELDA,
                  TAM_CELDA]
             )
-
+            valorCelda = str(matriz[fila][columna])
+            texto = fuente.render(valorCelda, True, (0, 0, 0))
+            textRect =  texto.get_rect(center=(
+                (MARGEN + TAM_CELDA) * columna + MARGEN + TAM_CELDA // 2,
+                (MARGEN + TAM_CELDA) * fila + MARGEN + TAM_CELDA // 2
+            ))
+            pantalla.blit(texto, textRect)
     pygame.display.flip()
 
-def visualizar_camino(matriz, caminoMinimo, inicio, final):
+def visualizarCamino(matriz, caminoMinimo, inicio, final):
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     pygame.init()
     filas, columnas = len(matriz), len(matriz[0])
@@ -62,9 +70,9 @@ def visualizar_camino(matriz, caminoMinimo, inicio, final):
                 return
 
         # Dibujar la matriz con el camino hasta el paso actual
-        camino_actual = caminoMinimo[:i + 1]
+        caminoActual = caminoMinimo[:i + 1]
         finalAlcanzado = (i == len(caminoMinimo)-1)
-        dibujar_matriz(pantalla, matriz, set(camino_actual), camino_actual, inicio, final, finalAlcanzado)
+        dibujarMatriz(pantalla, matriz, set(caminoActual), caminoActual, inicio, final, finalAlcanzado)
         textoPasos = fuenteContador.render(f"Paso {i} de {len(caminoMinimo)-1}", True, (255, 255, 255))
         pantalla.blit(textoPasos, (10, alto - 70))  # Posición del texto en la parte inferior izquierda
         
@@ -124,7 +132,7 @@ def menuSeleccionAlgoritmo():
 def dibujarBoton(pantalla, boton, texto, colorFondo, colorTexto):
     pygame.draw.rect(pantalla, colorFondo, boton)
     fuente = pygame.font.Font(None, 24)
-    texto_boton = fuente.render(texto, True, colorTexto)
-    pantalla.blit(texto_boton, (boton.x + (boton.width - texto_boton.get_width()) // 2,
-                                boton.y + (boton.height - texto_boton.get_height()) // 2))
+    textoBoton = fuente.render(texto, True, colorTexto)
+    pantalla.blit(textoBoton, (boton.x + (boton.width - textoBoton.get_width()) // 2,
+                                boton.y + (boton.height - textoBoton.get_height()) // 2))
     

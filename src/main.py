@@ -1,12 +1,13 @@
 from algorithms import dfs, ucs
 from utilities import leerMatrices
-from ventana import visualizar_camino, menuSeleccionAlgoritmo
+from ventana import visualizarCamino, menuSeleccionAlgoritmo
 
 if __name__ == "__main__":
-    with open("input/input.txt", "r") as archivo:
+    with open("input/input3.txt", "r") as archivo:
         # Leer todas las matrices del archivo
         matrices = leerMatrices(archivo)
     algoritmo = menuSeleccionAlgoritmo()
+
     if algoritmo is None:
         exit()
 
@@ -28,7 +29,7 @@ if __name__ == "__main__":
                 print("Camino mínimo:")
                 for paso in caminoMinimo[1]:
                     print(paso)
-                visualizar_camino(matriz, caminoMinimo[1], (filaInicio, columnaInicio), (filaFinal, columnaFinal))
+                visualizarCamino(matriz, caminoMinimo[1], (filaInicio, columnaInicio), (filaFinal, columnaFinal))
             else:
                 print("No se encontró un camino hacia el valor final.")
 
@@ -42,6 +43,6 @@ if __name__ == "__main__":
                 print("Camino óptimo:")
                 for paso in camino:
                     print(paso)
-                visualizar_camino(matriz, camino, (filaInicio, columnaInicio), (filaFinal, columnaFinal))
+                visualizarCamino(matriz, camino, (filaInicio, columnaInicio), (filaFinal, columnaFinal))
             else:
                 print("UCS: No se encontró un camino hacia el valor final.")
